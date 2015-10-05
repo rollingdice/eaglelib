@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE eagle SYSTEM "eagle.dtd">
-<eagle version="7.2.0">
+<eagle version="7.4.0">
 <drawing>
 <settings>
 <setting alwaysvectorfont="no"/>
@@ -133,7 +133,7 @@
 <library>
 <description>User library</description>
 <packages>
-<package name="18650-CASE">
+<package name="18650-CASE-CABLE">
 <pad name="NEG" x="-40" y="0" drill="1" diameter="1.9304" shape="octagon"/>
 <pad name="POS" x="40" y="0" drill="1" diameter="1.9304" shape="octagon"/>
 <rectangle x1="-30" y1="-9" x2="35" y2="9" layer="21"/>
@@ -1237,6 +1237,26 @@ For Reference, see Amotec Display part ADM0802A (http://amotec-display.com/pdf/A
 <rectangle x1="1.25" y1="2.1" x2="1.75" y2="2.4" layer="29" rot="R270"/>
 <rectangle x1="1.275" y1="2.125" x2="1.725" y2="2.375" layer="31" rot="R270"/>
 </package>
+<package name="18650-CASE-PTH">
+<pad name="POS" x="35.56" y="0" drill="2" shape="octagon"/>
+<pad name="NEG" x="-35.56" y="0" drill="2" shape="octagon"/>
+<rectangle x1="-33.02" y1="-10.16" x2="30.48" y2="10.16" layer="21"/>
+<rectangle x1="30.48" y1="-3.81" x2="31.75" y2="3.81" layer="21"/>
+<wire x1="35.56" y1="5.08" x2="35.56" y2="2.54" width="0.127" layer="21"/>
+<wire x1="34.29" y1="3.81" x2="36.83" y2="3.81" width="0.127" layer="21"/>
+</package>
+<package name="TP4056-LITHIUM-PROTECTED-MODULE">
+<wire x1="-12.7" y1="8.255" x2="12.7" y2="8.255" width="0.127" layer="21"/>
+<wire x1="12.7" y1="8.255" x2="12.7" y2="-8.255" width="0.127" layer="21"/>
+<wire x1="12.7" y1="-8.255" x2="-12.7" y2="-8.255" width="0.127" layer="21"/>
+<wire x1="-12.7" y1="-8.255" x2="-12.7" y2="8.255" width="0.127" layer="21"/>
+<pad name="IN+" x="-11.43" y="6.985" drill="0.9" shape="square"/>
+<pad name="IN-" x="-11.43" y="-6.35" drill="0.9" shape="square"/>
+<pad name="OUT-" x="10.795" y="-6.35" drill="0.9" shape="square"/>
+<pad name="OUT+" x="10.795" y="6.985" drill="0.9" shape="square"/>
+<pad name="B+" x="10.795" y="4.445" drill="0.9" shape="square"/>
+<pad name="B-" x="10.795" y="-3.81" drill="0.9" shape="square"/>
+</package>
 </packages>
 <symbols>
 <symbol name="3V7">
@@ -1581,6 +1601,18 @@ For Reference, see Amotec Display part ADM0802A (http://amotec-display.com/pdf/A
 <text x="-7.62" y="-5.08" size="1.27" layer="127">&gt;Value</text>
 <pin name="GND@2" x="-20.32" y="-15.24" length="middle" direction="pwr"/>
 </symbol>
+<symbol name="LITHIUM-CHG-PROTECT">
+<wire x1="-7.62" y1="7.62" x2="7.62" y2="7.62" width="0.254" layer="94"/>
+<wire x1="7.62" y1="7.62" x2="7.62" y2="-7.62" width="0.254" layer="94"/>
+<wire x1="7.62" y1="-7.62" x2="-7.62" y2="-7.62" width="0.254" layer="94"/>
+<wire x1="-7.62" y1="-7.62" x2="-7.62" y2="7.62" width="0.254" layer="94"/>
+<pin name="IN+" x="-12.7" y="5.08" length="middle" direction="pwr"/>
+<pin name="IN-" x="-12.7" y="-5.08" length="middle" direction="pwr"/>
+<pin name="OUT+" x="12.7" y="5.08" length="middle" direction="pwr" rot="R180"/>
+<pin name="B+" x="12.7" y="2.54" length="middle" direction="pwr" rot="R180"/>
+<pin name="B-" x="12.7" y="-2.54" length="middle" direction="pwr" rot="R180"/>
+<pin name="OUT-" x="12.7" y="-5.08" length="middle" direction="pwr" rot="R180"/>
+</symbol>
 </symbols>
 <devicesets>
 <deviceset name="18650">
@@ -1589,7 +1621,16 @@ For Reference, see Amotec Display part ADM0802A (http://amotec-display.com/pdf/A
 <gate name="G$1" symbol="3V7" x="19.812" y="-10.16"/>
 </gates>
 <devices>
-<device name="" package="18650-CASE">
+<device name="CABLE" package="18650-CASE-CABLE">
+<connects>
+<connect gate="G$1" pin="NEG" pad="NEG"/>
+<connect gate="G$1" pin="POS" pad="POS"/>
+</connects>
+<technologies>
+<technology name=""/>
+</technologies>
+</device>
+<device name="PTH" package="18650-CASE-PTH">
 <connects>
 <connect gate="G$1" pin="NEG" pad="NEG"/>
 <connect gate="G$1" pin="POS" pad="POS"/>
@@ -1901,6 +1942,26 @@ OUT: ADJ</description>
 <connect gate="G$1" pin="VP" pad="12"/>
 <connect gate="G$1" pin="ZX" pad="1"/>
 <connect gate="G$1" pin="ZX_I" pad="21"/>
+</connects>
+<technologies>
+<technology name=""/>
+</technologies>
+</device>
+</devices>
+</deviceset>
+<deviceset name="TP4056-MODULE">
+<gates>
+<gate name="G$1" symbol="LITHIUM-CHG-PROTECT" x="0" y="0"/>
+</gates>
+<devices>
+<device name="" package="TP4056-LITHIUM-PROTECTED-MODULE">
+<connects>
+<connect gate="G$1" pin="B+" pad="B+"/>
+<connect gate="G$1" pin="B-" pad="B-"/>
+<connect gate="G$1" pin="IN+" pad="IN+"/>
+<connect gate="G$1" pin="IN-" pad="IN-"/>
+<connect gate="G$1" pin="OUT+" pad="OUT+"/>
+<connect gate="G$1" pin="OUT-" pad="OUT-"/>
 </connects>
 <technologies>
 <technology name=""/>
